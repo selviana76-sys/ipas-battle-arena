@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#6538e8">
+<title>IPAS Battle Arena • Kelas 6</title>
+<style>
+:root{--purple:#6538e8;--pink:#ff4fa3;--yellow:#ffd43b;--cyan:#25d9e8;--green:#21c779;--blue:#3988ff;--ink:#222044;--white:#fff}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:"Trebuchet MS",system-ui,Arial,sans-serif;color:var(--ink)}
+body{background:radial-gradient(circle at 8% 12%,#ffe3f1 0 9%,transparent 10%),radial-gradient(circle at 92% 22%,#d7faff 0 10%,transparent 11%),linear-gradient(135deg,#f6eaff,#e9f8ff 55%,#fff7cf);min-height:100vh}
+button,input,select,textarea{font:inherit}button{cursor:pointer;touch-action:manipulation;transition:transform .12s,filter .12s}button:active{transform:scale(.97)}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:4px solid #25d9e8;outline-offset:2px}
+.top{padding:14px 18px 18px;background:linear-gradient(110deg,#6035df,#8b43e9 50%,#ff4fa3);color:white;text-align:center;position:relative;overflow:hidden;border-radius:0 0 30px 30px;box-shadow:0 8px 0 #4d25bd25}
+.top:before,.top:after{content:"✦";position:absolute;font-size:48px;color:#ffffff80;top:12px}.top:before{left:5%}.top:after{right:5%}
+.kicker{font-weight:900;letter-spacing:2px;font-size:.78rem;background:#ffffff2b;border:1px solid #ffffff70;border-radius:99px;padding:6px 12px;display:inline-block}
+h1{font-size:clamp(1.7rem,5vw,3.3rem);line-height:1.04;margin:10px 0 6px;text-shadow:0 4px 0 #4223a055} .top p{margin:0;font-weight:700;color:#fff7ff}
+main{max-width:1150px;margin:18px auto;padding:0 14px 30px}.panel{background:#ffffffed;border:3px solid white;border-radius:24px;padding:clamp(16px,3vw,28px);box-shadow:0 10px 0 #4b3c9520,0 16px 35px #4b3c9510;margin-bottom:16px}
+h2{margin:0 0 10px;font-size:clamp(1.35rem,3vw,2rem);color:#4c2bb8}.lead{line-height:1.6;color:#5b5877}.hidden{display:none!important}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.spread{justify-content:space-between}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:13px}
+.team-box{padding:15px;border:3px solid #e6ddff;border-radius:18px;background:linear-gradient(140deg,#fff,#f5efff)}label{display:block;font-weight:900;margin-bottom:8px}.team-box input,.field{width:100%;padding:13px;border:2px solid #ded7f5;border-radius:13px;background:#fff}
+.btn{border:0;border-radius:15px;padding:14px 20px;font-weight:900;box-shadow:0 5px 0 #00000019;min-height:48px}.btn-main{background:linear-gradient(100deg,#6236e8,#8d45f5);color:#fff}.btn-pink{background:linear-gradient(100deg,#ff4fa3,#ff7a70);color:#fff}.btn-yellow{background:linear-gradient(100deg,#ffd43b,#ffad33);color:#553000}.btn-cyan{background:linear-gradient(100deg,#25d9e8,#49a8ff);color:#123d70}.btn-soft{background:#eee9ff;color:#4c2bb8}.btn-green{background:linear-gradient(100deg,#21c779,#72d957);color:#083d29}.btn-red{background:#ffe1e7;color:#9f1239}
+.small{font-size:.86rem;padding:9px 12px;min-height:38px}.tiny{font-size:.82rem;color:#777393}
+.team-scores{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:14px 0}.score-card{padding:13px 8px;border-radius:18px;text-align:center;color:#fff;box-shadow:0 5px 0 #00000016;min-width:0}.score-card:nth-child(1){background:linear-gradient(140deg,#3988ff,#6054f6)}.score-card:nth-child(2){background:linear-gradient(140deg,#ff4fa3,#ff796b)}.score-card:nth-child(3){background:linear-gradient(140deg,#18bd88,#73d74c)}.score-name{font-weight:900;font-size:clamp(.75rem,2vw,1rem);overflow-wrap:anywhere}.score-num{font-size:clamp(1.8rem,5vw,2.6rem);font-weight:1000;line-height:1.2}.score-unit{font-size:.8rem;font-weight:800}
+.meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.chip{padding:8px 12px;border-radius:99px;background:#eee9ff;color:#4c2bb8;font-weight:900;font-size:.9rem}.chip.timer{background:#fff0b9;color:#854d0e;margin-left:auto}.progress{height:12px;background:#e9e5f6;border-radius:99px;overflow:hidden;margin:13px 0}.progress div{height:100%;width:0;background:linear-gradient(90deg,#21c779,#25d9e8,#8b43e9);transition:width .3s}
+.qbox{background:linear-gradient(140deg,#673de5,#8951f1);color:white;border-radius:22px;padding:clamp(18px,4vw,34px);margin:15px 0;text-align:center;box-shadow:0 7px 0 #4b2bb5}.qtitle{font-size:clamp(1.25rem,3.3vw,2.1rem);font-weight:1000;line-height:1.35}.qemoji{font-size:2rem;display:block;margin-bottom:6px}
+.illustration{display:flex;align-items:center;justify-content:center;gap:clamp(12px,4vw,42px);min-height:clamp(105px,18vw,175px);margin:0 auto 18px;padding:12px 18px;max-width:720px;border-radius:24px;background:linear-gradient(135deg,#fff6c9,#e1faff 48%,#ffe4f1);border:4px solid #ffffff;box-shadow:0 6px 0 #35207835;color:#352078}.ill-item{display:grid;place-items:center;font-size:clamp(2.8rem,7vw,5.3rem);filter:drop-shadow(0 4px 0 #35207816);line-height:1.1}.ill-item:nth-child(2){font-size:clamp(3.5rem,9vw,6.3rem)}.ill-caption{font-size:.82rem;font-weight:900;letter-spacing:.5px;color:#4c2bb8;background:#ffffffd9;border-radius:99px;padding:5px 12px;margin-top:7px;display:inline-block}
+.answers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.answer{display:flex;align-items:center;text-align:left;gap:12px;padding:16px;min-height:88px;border-radius:19px;border:3px solid #e5e0f4;background:#fff;color:#272044;font-weight:900;font-size:clamp(1rem,2.4vw,1.25rem);box-shadow:0 5px 0 #dcd6ee}.answer:nth-child(1){border-color:#b9d7ff}.answer:nth-child(2){border-color:#ffd2e6}.answer:nth-child(3){border-color:#bcefe0}.answer:nth-child(4){border-color:#ffe6a1}.letter{flex:0 0 42px;height:42px;display:grid;place-items:center;border-radius:13px;color:#fff;background:#3988ff;font-size:1.15rem}.answer:nth-child(2) .letter{background:#ff4fa3}.answer:nth-child(3) .letter{background:#18bd88}.answer:nth-child(4) .letter{background:#f4ac16}.answer.correct{background:#d9ffeb;border-color:#21c779;box-shadow:0 5px 0 #9be7c3}.answer.wrong{background:#ffe2e8;border-color:#ff6681;box-shadow:0 5px 0 #f6b1c0}.answer:disabled{cursor:default}
+.feedback{padding:16px;border-radius:17px;margin-top:14px;line-height:1.55;font-weight:700}.feedback.good{background:#dcfce9;border:2px solid #8ee6b7;color:#14532d}.feedback.bad{background:#fff2cc;border:2px solid #ffdc72;color:#854d0e}
+footer{text-align:center;color:#716b91;font-size:.85rem;padding:5px 15px 28px}
+#teacherPanel textarea{min-height:230px;width:100%;padding:12px;border:2px solid #ded7f5;border-radius:12px;font: .85rem/1.5 ui-monospace,monospace}
+.modal-bg{position:fixed;inset:0;background:#1b1046b8;display:grid;place-items:center;padding:18px;z-index:10}.modal{width:min(480px,100%);background:#fff;border-radius:25px;padding:25px;box-shadow:0 20px 70px #120b3c70}.modal h2{margin-bottom:8px}.modal input{width:100%;padding:14px;border:2px solid #ded7f5;border-radius:12px;margin:10px 0 14px}
+.sparkle{position:fixed;z-index:20;pointer-events:none;top:-20px;font-size:25px;animation:fall 1.6s ease-in forwards}@keyframes fall{to{transform:translateY(110vh) rotate(650deg);opacity:.2}}
+@media(max-width:620px){.answers{grid-template-columns:1fr}.answer{min-height:72px}.team-scores{gap:7px}.score-card{padding:10px 5px}.chip.timer{margin-left:0}.panel{border-radius:20px}.top:before,.top:after{font-size:28px}}
+@media(orientation:landscape) and (min-width:700px){main{max-width:1250px}.answer{min-height:76px}.qbox{padding:20px}.top{padding:10px 18px 14px}h1{margin:5px 0}}
+@media print{.top,.btn,button,footer{display:none!important}body{background:#fff}.panel{box-shadow:none;border:1px solid #ddd}}
+
+.level-pick{margin:14px auto 10px;max-width:900px;padding:14px;border-radius:18px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22)}
+.level-label{text-align:center;font-weight:900;letter-spacing:1px;margin-bottom:10px;color:#fff}
+.level-buttons{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.level-btn{border:2px solid rgba(255,255,255,.45);border-radius:13px;padding:12px 15px;font-weight:900;cursor:pointer;background:#fff;color:#29305b;min-height:48px}
+.level-btn.active{background:#ffe16b;border-color:#fff;box-shadow:0 0 0 3px rgba(255,225,107,.25)}
+
+</style>
+</head>
+<body>
+<header class="top">
+  <span class="kicker">✨ GAME EDUKASI • KELAS 6 SD ✨</span>
+  <h1>⚡ IPAS BATTLE ARENA ⚡</h1>
+  <p>Petualangan Energi • Belajar sambil bertanding!</p>
+</header>
+<main>
+<section id="setup" class="panel">
+  <div class="row spread"><div><h2>🚀 Siap, para juara?</h2><div class="lead">Sentuh layar untuk bermain. Ayo kumpulkan poin dan jadilah Juara Energi!</div></div><button class="btn btn-soft small" id="teacherBtn">🔐 Mode Guru</button></div>
+  <div class="grid" style="margin-top:18px">
+    <div class="team-box"><label for="team1">🔵 Nama Tim Biru</label><input id="team1" maxlength="30" value="Tim Matahari"></div>
+    <div class="team-box"><label for="team2">💗 Nama Tim Pink</label><input id="team2" maxlength="30" value="Tim Angin"></div>
+    <div class="team-box"><label for="team3">🟢 Nama Tim Hijau</label><input id="team3" maxlength="30" value="Tim Air"></div>
+  </div>
+  <div class="grid" style="margin-top:14px">
+    <div class="team-box"><label for="seconds">⏱️ Waktu menjawab</label><select id="seconds" class="field"><option value="15">15 detik • Cepat!</option><option value="20" selected>20 detik • Normal</option><option value="30">30 detik • Santai</option><option value="45">45 detik • Tantangan analisis</option></select></div>
+    <div class="team-box"><label for="roundMode">🎯 Cara bermain</label><select id="roundMode" class="field"><option value="turn" selected>Giliran tim bergantian</option><option value="all">Guru memilih tim yang menjawab</option></select></div>
+  </div>
+  <div class="row" style="margin-top:18px"><div class="level-pick" aria-label="Pilih tingkat soal">
+      <div class="level-label">PILIH LEVEL TANTANGAN</div>
+      <div class="level-buttons">
+        <button type="button" class="level-btn active" data-level="1">LEVEL 1 · DASAR ANALISIS</button>
+        <button type="button" class="level-btn" data-level="2">LEVEL 2 · ANALISIS LANJUT</button>
+        <button type="button" class="level-btn" data-level="3">LEVEL 3 · TKA MENANTANG</button>
+      </div>
+    </div><button class="btn btn-main" id="startBtn">🎮 MULAI BATTLE!</button><button class="btn btn-yellow" id="fullBtn">⛶ Layar Penuh</button><button class="btn btn-cyan" id="rulesBtn">💡 Cara Bermain</button></div>
+  <div id="rules" class="feedback hidden"><b>🌟 Cara bermain:</b><br>1. Bagi siswa menjadi 3 tim.<br>2. Dalam mode giliran, tim yang mendapat giliran menyentuh satu pilihan jawaban. Jawaban benar mendapat 10 poin.<br>3. Dalam mode guru memilih tim, setelah jawaban benar guru menyentuh tombol tim yang berhak mendapat poin.<br>4. Baca pembahasan bersama setelah menjawab. Jawaban salah tidak mengurangi poin.<br>5. Setelah 15 soal, lihat juara dan rayakan usaha semua tim!</div>
+</section>
+
+<section id="game" class="panel hidden">
+ <div class="row spread"><div><h2>⚔️ BATTLE DIMULAI!</h2><div class="tiny">Ingat: diskusikan, pikirkan, lalu sentuh jawaban!</div></div><button class="btn btn-soft small" id="exitBtn">↩ Menu</button></div>
+ <div class="team-scores" id="scores"></div>
+ <div class="meta"><span class="chip" id="qNumber">SOAL 1/15</span><span class="chip" id="level">PEMAHAMAN</span><span class="chip" id="turnLabel">Giliran: Tim Matahari</span><span class="chip timer" id="timer">⏱ 20 dtk</span></div>
+ <div class="progress"><div id="bar"></div></div>
+ <div class="qbox"><span class="qemoji">🌈🔎✨</span><div class="illustration" id="illustration" role="img" aria-label="Ilustrasi soal"><div class="ill-item" id="ill1">☀️</div><div class="ill-item" id="ill2">🌱</div><div class="ill-item" id="ill3">⚡</div></div><div class="ill-caption" id="illCaption"></div><div class="qtitle" id="question"></div></div>
+ <div class="answers" id="answers"></div>
+ <div id="feedback" class="feedback hidden" aria-live="polite"></div>
+ <div class="row spread" style="margin-top:17px"><span class="tiny" id="status">Sentuh jawaban yang paling tepat.</span><button class="btn btn-main hidden" id="nextBtn">LANJUT ➜</button></div>
+</section>
+
+<section id="results" class="panel hidden">
+ <div style="text-align:center"><div style="font-size:4rem">🏆🌈🎉</div><h2>HEBAT SEKALI!</h2><p class="lead" id="winnerText"></p></div>
+ <div id="finalScores"></div>
+ <div class="feedback good"><b>📘 Ingat materi penting:</b><br>Energi terbarukan berasal dari sumber yang dapat pulih secara alami, misalnya matahari, angin, air mengalir, panas bumi, dan biomassa. Energi tidak terbarukan berasal dari sumber terbatas yang terbentuk sangat lama, misalnya batu bara, minyak bumi, dan gas alam. Semua sumber energi perlu digunakan secara bijak.</div>
+ <div class="row" style="margin-top:17px"><button class="btn btn-main" id="againBtn">🔄 MAIN LAGI</button><button class="btn btn-yellow" onclick="window.print()">🖨️ Cetak Hasil</button><button class="btn btn-soft" id="resultTeacher">🔐 Mode Guru</button></div>
+</section>
+
+<section id="teacherPanel" class="panel hidden">
+ <div class="row spread"><h2>🧑‍🏫 Ruang Guru</h2><button class="btn btn-soft small" id="closeTeacher">Tutup ✕</button></div>
+ <p class="lead">Ubah bank soal dengan format JSON. Setelah disimpan, soal akan digunakan pada permainan berikutnya di perangkat ini. Simpan salinan JSON di tempat aman sebagai cadangan.</p>
+ <label for="editor">Bank soal (JSON)</label><textarea id="editor" spellcheck="false"></textarea>
+ <div class="row" style="margin-top:12px"><button class="btn btn-green" id="saveQuestions">💾 Simpan Bank Soal</button><button class="btn btn-cyan" id="resetQuestions">↩ Pulihkan Soal Awal</button><button class="btn btn-yellow" id="exportQuestions">⬇ Unduh JSON</button></div>
+ <div id="teacherMsg" class="feedback hidden"></div>
+ <p class="tiny">Format setiap soal: {"q":"Pertanyaan","a":["Pilihan A","Pilihan B","Pilihan C","Pilihan D"],"c":0,"d":"Analisis","e":"Pembahasan"}. Nilai c adalah indeks jawaban benar: 0=A, 1=B, 2=C, 3=D.</p>
+ <p class="tiny">Catatan keamanan: password pada file HTML hanya pengunci sederhana, bukan keamanan kuat. Orang yang dapat membaca kode file bisa menemukan atau menggantinya.</p>
+</section>
+</main>
+<footer>🌱 UPTD SDN 69 MALAKKE • IPAS Battle Arena • Dibuat untuk belajar aktif dan menyenangkan 🌟<br><strong style="display:inline-block;margin-top:8px;color:#6538e8;font-size:.95rem">by Selviana, S.Pd.</strong></footer>
+
+<div id="loginModal" class="modal-bg hidden" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+ <div class="modal"><div style="font-size:2.5rem">🔐</div><h2 id="loginTitle">Akses Mode Guru</h2><p class="lead">Masukkan password guru untuk membuka pengaturan bank soal.</p><input type="password" id="passwordInput" placeholder="Password guru" autocomplete="current-password"><div id="loginError" class="tiny hidden" style="color:#be123c;font-weight:800;margin-bottom:10px">Password belum sesuai. Coba lagi.</div><div class="row"><button class="btn btn-main" id="loginBtn">Buka Mode Guru</button><button class="btn btn-soft" id="cancelLogin">Batal</button></div></div>
+</div>
+
+<script>
+const DEFAULT_PASSWORD = "GuruIPAS26!";
+const defaultBank = [
+  {
+    "q": "Sebuah desa menggunakan listrik terutama pada siang hari. Atap balai desa luas dan jarang tertutup bayangan, tetapi sungainya kecil dan alirannya berubah-ubah. Pilihan yang paling layak dikaji terlebih dahulu adalah …",
+    "img": "🏘️|📊|🔍|",
+    "a": [
+      "Pembangkit listrik tenaga surya dengan memperhitungkan kebutuhan dan biaya",
+      "Pembangkit listrik tenaga air karena semua sungai dapat memutar turbin dengan stabil",
+      "Pembangkit listrik tenaga batu bara skala kecil tanpa menilai pasokan bahan bakar",
+      "Generator bensin yang dinyalakan sepanjang hari agar tidak perlu perencanaan"
+    ],
+    "c": 0,
+    "d": "ANALISIS TKA",
+    "e": "Kondisi atap dan kebutuhan listrik siang hari mendukung kajian tenaga surya. Keputusan akhir tetap memerlukan data biaya, kebutuhan, penyimpanan, dan kondisi setempat."
+  },
+  {
+    "q": "Dua wilayah memiliki kebutuhan listrik yang sama. Wilayah P mendapat angin cukup kuat dan relatif stabil; wilayah Q memiliki aliran sungai deras sepanjang tahun. Kesimpulan yang paling tepat adalah …",
+    "img": "🗺️|📈|⚙️|",
+    "a": [
+      "Keduanya harus memakai jenis pembangkit yang sama agar adil",
+      "Wilayah P dapat mengkaji tenaga angin dan wilayah Q dapat mengkaji tenaga air berdasarkan data teknis",
+      "Wilayah P pasti lebih murah daripada wilayah Q",
+      "Wilayah Q tidak memerlukan kajian dampak lingkungan karena air dapat diperbarui"
+    ],
+    "c": 1,
+    "d": "ANALISIS TKA",
+    "e": "Sumber energi sebaiknya disesuaikan dengan potensi lokal. Keduanya tetap memerlukan kajian biaya, keandalan, dan dampak lingkungan."
+  },
+  {
+    "q": "Perhatikan data perkiraan ketersediaan sumber energi berikut: batu bara 80 tahun, minyak bumi 45 tahun, gas alam 55 tahun, sinar matahari tersedia setiap hari. Pernyataan yang paling didukung oleh data tersebut adalah …",
+    "img": "📋|🔢|🔎|",
+    "a": [
+      "Sinar matahari selalu menghasilkan listrik tanpa alat tambahan",
+      "Batu bara dan minyak bumi dapat pulih dalam waktu yang sama dengan pemakaiannya",
+      "Bahan bakar fosil memiliki persediaan terbatas, sedangkan sinar matahari terus tersedia melalui proses alam",
+      "Sinar matahari pasti menjadi sumber energi termurah di semua daerah"
+    ],
+    "c": 2,
+    "d": "ANALISIS DATA",
+    "e": "Data menunjukkan perkiraan keterbatasan bahan bakar fosil. Ketersediaan sumber terbarukan tidak berarti energi dapat dimanfaatkan tanpa teknologi atau biaya."
+  },
+  {
+    "q": "Sebuah sekolah memasang panel surya. Pada hari mendung, listrik yang dihasilkan berkurang. Tindakan paling masuk akal agar pasokan listrik tetap andal adalah …",
+    "img": "🏫|🌦️|🔌|",
+    "a": [
+      "Menganggap panel surya rusak karena tidak selalu menghasilkan daya maksimum",
+      "Menggabungkan panel surya dengan penyimpanan energi atau sumber listrik lain sesuai kebutuhan",
+      "Memasang panel lebih sedikit agar listrik lebih stabil",
+      "Menyalakan seluruh peralatan saat matahari tertutup awan"
+    ],
+    "c": 1,
+    "d": "PENERAPAN TKA",
+    "e": "Produksi tenaga surya berubah mengikuti kondisi cahaya. Penyimpanan atau sumber pendukung dapat membantu menjaga keandalan pasokan."
+  },
+  {
+    "q": "Pembangkit listrik tenaga air direncanakan di sungai dekat permukiman. Selain potensi aliran air, informasi apa yang paling penting dikaji sebelum pembangunan?",
+    "img": "🌊|🏘️|📝|",
+    "a": [
+      "Warna air sungai pada satu hari pengamatan saja",
+      "Jumlah rumah yang menyukai bentuk bangunan pembangkit",
+      "Perubahan ekosistem, kebutuhan air warga, debit musiman, dan keselamatan lokasi",
+      "Nama sungai yang paling mudah diingat"
+    ],
+    "c": 2,
+    "d": "EVALUASI TKA",
+    "e": "Pembangunan perlu mempertimbangkan data hidrologi, keselamatan, kebutuhan masyarakat, serta kemungkinan dampak terhadap ekosistem."
+  },
+  {
+    "q": "Seorang siswa menyatakan, “Energi terbarukan tidak pernah menimbulkan dampak lingkungan.” Penilaian paling tepat terhadap pernyataan itu adalah …",
+    "img": "🌍|⚖️|🔎|",
+    "a": [
+      "Benar, karena sumbernya dapat pulih secara alami",
+      "Benar jika pembangkitnya menghasilkan listrik",
+      "Kurang tepat, karena pembangunan dan pengoperasian pembangkit tetap dapat memengaruhi lingkungan",
+      "Salah karena semua energi terbarukan termasuk bahan bakar fosil"
+    ],
+    "c": 2,
+    "d": "EVALUASI TKA",
+    "e": "Terbarukan menjelaskan kemampuan sumber pulih secara alami, bukan berarti penggunaannya sama sekali bebas dampak."
+  },
+  {
+    "q": "Bahan bakar fosil terbentuk dari sisa organisme yang mengalami proses alam sangat lama. Mengapa pemakaiannya secara terus-menerus dapat menjadi masalah bagi generasi mendatang?",
+    "img": "⏳|🌱|🌏|",
+    "a": [
+      "Karena bahan bakar fosil tidak dapat menghasilkan energi panas",
+      "Karena pembentukannya jauh lebih lambat daripada laju pemakaian dan pembakarannya dapat menambah polusi",
+      "Karena bahan bakar fosil hanya dapat digunakan pada malam hari",
+      "Karena seluruh bahan bakar fosil dapat digantikan oleh air tanpa perubahan teknologi"
+    ],
+    "c": 1,
+    "d": "SEBAB-AKIBAT TKA",
+    "e": "Persediaan bahan bakar fosil terbatas dan proses pembentukannya sangat lambat. Pembakaran juga menghasilkan polutan dan gas rumah kaca."
+  },
+  {
+    "q": "Sisa daun dan sisa makanan dikumpulkan untuk diolah menjadi biogas. Pernyataan yang paling tepat tentang proses tersebut adalah …",
+    "img": "🍂|🧪|♻️|",
+    "a": [
+      "Bahan organik diolah melalui proses tertentu sehingga menghasilkan gas yang dapat dimanfaatkan sebagai bahan bakar",
+      "Semua sampah langsung berubah menjadi listrik tanpa pengolahan",
+      "Biogas termasuk batu bara karena keduanya ditemukan di alam",
+      "Pengolahan bahan organik selalu menghasilkan energi tanpa residu atau dampak"
+    ],
+    "c": 0,
+    "d": "PEMAHAMAN TKA",
+    "e": "Biogas dapat dihasilkan dari penguraian bahan organik dalam kondisi tertentu. Pengolahan dan pengelolaan residu tetap diperlukan."
+  },
+  {
+    "q": "Keluarga ingin mengurangi pemakaian listrik. Catatan menunjukkan lampu teras menyala sepanjang siang, sedangkan kulkas harus tetap beroperasi. Tindakan awal yang paling sesuai berdasarkan informasi adalah …",
+    "img": "🏠|🗒️|💡|",
+    "a": [
+      "Mematikan kulkas setiap siang tanpa mempertimbangkan keamanan makanan",
+      "Mengganti semua alat listrik sekaligus meskipun belum diketahui pemakaiannya",
+      "Mematikan lampu teras saat cahaya alami mencukupi dan mengevaluasi pemakaian alat lain",
+      "Menyalakan lampu tambahan agar keluarga lebih mudah melihat"
+    ],
+    "c": 2,
+    "d": "PENERAPAN TKA",
+    "e": "Tindakan yang paling langsung sesuai data adalah mengurangi penggunaan lampu yang tidak diperlukan, sambil mengevaluasi pemakaian lain."
+  },
+  {
+    "q": "Panel surya menghasilkan listrik dari cahaya. Pada malam hari, panel tidak menerima cahaya matahari langsung. Penjelasan terbaik tentang cara memenuhi kebutuhan listrik malam hari adalah …",
+    "img": "🌅|🔋|🏡|",
+    "a": [
+      "Panel surya mengubah energi malam menjadi cahaya matahari",
+      "Listrik dapat disediakan dari energi yang disimpan sebelumnya atau dari sumber lain",
+      "Panel surya selalu menghasilkan daya yang sama siang dan malam",
+      "Kebutuhan listrik malam hari otomatis hilang ketika matahari terbenam"
+    ],
+    "c": 1,
+    "d": "PENERAPAN TKA",
+    "e": "Energi dari siang hari dapat disimpan dengan sistem penyimpanan, atau pasokan dilengkapi sumber lain."
+  },
+  {
+    "q": "Panas dari bagian dalam bumi dimanfaatkan di beberapa wilayah untuk menghasilkan listrik. Mengapa sumber ini tidak otomatis cocok dibangun di semua tempat?",
+    "img": "🧭|🌋|📍|",
+    "a": [
+      "Karena panas bumi hanya muncul saat hujan",
+      "Karena pemanfaatannya membutuhkan kondisi geologi dan fasilitas yang sesuai",
+      "Karena panas bumi berasal dari pembakaran minyak bumi di permukaan",
+      "Karena listrik dari panas bumi hanya dapat digunakan untuk lampu"
+    ],
+    "c": 1,
+    "d": "ANALISIS TKA",
+    "e": "Potensi panas bumi bergantung pada kondisi geologi dan kelayakan teknis, sehingga tidak tersedia merata di semua lokasi."
+  },
+  {
+    "q": "Seorang siswa ingin membuktikan bahwa penggunaan lampu LED dapat mengurangi energi listrik dibanding lampu lain. Cara penyelidikan yang paling adil adalah …",
+    "img": "💡|📏|🧪|",
+    "a": [
+      "Membandingkan dua lampu dengan daya dan lama penggunaan yang tidak dicatat",
+      "Menggunakan jenis lampu berbeda, mengukur pemakaian listrik dalam kondisi dan durasi sebanding",
+      "Memilih lampu yang tampak paling terang tanpa pengukuran",
+      "Bertanya kepada satu orang lalu menganggap hasilnya berlaku untuk semua lampu"
+    ],
+    "c": 1,
+    "d": "PENALARAN ILMIAH TKA",
+    "e": "Perbandingan yang adil memerlukan kondisi yang sebanding dan pengukuran yang jelas, misalnya energi yang digunakan dalam durasi tertentu."
+  },
+  {
+    "q": "Pemerintah desa akan memilih sumber energi. Data yang tersedia baru berupa jumlah hari cerah, kecepatan angin, debit sungai, biaya, dan kebutuhan warga. Langkah berikut yang paling tepat adalah …",
+    "img": "📊|🗺️|🧠|",
+    "a": [
+      "Langsung memilih sumber yang namanya paling dikenal",
+      "Mengabaikan data yang tidak mendukung pilihan pertama",
+      "Membandingkan potensi, biaya, keandalan, kebutuhan, dan dampak dari tiap pilihan sebelum memutuskan",
+      "Memilih sumber energi berdasarkan satu data saja"
+    ],
+    "c": 2,
+    "d": "EVALUASI DATA TKA",
+    "e": "Keputusan yang kuat menggunakan beberapa data relevan, bukan satu indikator atau popularitas suatu pilihan."
+  },
+  {
+    "q": "Sebuah pembangkit menghasilkan listrik dalam jumlah besar, tetapi bahan bakarnya harus didatangkan dari jauh. Pembangkit lain menghasilkan lebih sedikit listrik, tetapi sumbernya tersedia dekat lokasi dan pasokannya berubah-ubah. Apa kesimpulan terbaik?",
+    "img": "⚡|🚚|📉|",
+    "a": [
+      "Pembangkit pertama pasti pilihan terbaik karena menghasilkan listrik lebih banyak",
+      "Pembangkit kedua pasti pilihan terbaik karena sumbernya dekat",
+      "Belum cukup informasi; perlu membandingkan biaya, kebutuhan, keandalan pasokan, dan dampak lingkungan",
+      "Keduanya tidak dapat digunakan karena memiliki kekurangan"
+    ],
+    "c": 2,
+    "d": "EVALUASI TKA",
+    "e": "Pemilihan energi melibatkan banyak pertimbangan. Informasi yang ada belum cukup untuk menentukan pilihan terbaik secara mutlak."
+  },
+  {
+    "q": "Manakah kesimpulan yang paling tepat setelah mempelajari sumber energi terbarukan dan tidak terbarukan?",
+    "img": "🔍|🌎|⚖️|",
+    "a": [
+      "Sumber terbarukan tidak perlu dikelola karena jumlahnya tidak terbatas di setiap lokasi",
+      "Sumber tidak terbarukan tidak berguna karena persediaannya terbatas",
+      "Pemilihan dan penggunaan energi perlu mempertimbangkan ketersediaan, kebutuhan, teknologi, biaya, serta dampak lingkungan",
+      "Satu jenis sumber energi selalu paling tepat untuk semua wilayah"
+    ],
+    "c": 2,
+    "d": "SINTESIS TKA",
+    "e": "Setiap sumber energi memiliki kelebihan dan keterbatasan. Keputusan yang bijak mempertimbangkan konteks dan bukti yang tersedia."
+  }
+];
+const level2Bank = [
+  {
+    "q": "Sebuah sekolah membandingkan tiga cara memasok listrik untuk ruang komputer. Panel surya menghasilkan 18 kWh pada hari cerah dan 7 kWh pada hari mendung. Turbin angin menghasilkan 10 kWh saat angin stabil, tetapi hanya 2 kWh saat angin lemah. Kebutuhan ruang komputer 8 kWh per hari. Kesimpulan paling tepat adalah …",
+    "img": "🏫|📊|🔌|",
+    "a": [
+      "Panel surya pasti memenuhi kebutuhan setiap hari karena hasil hari cerah lebih besar dari 8 kWh",
+      "Turbin angin pasti paling baik karena hasilnya tidak pernah berubah",
+      "Satu sumber saja belum menjamin kebutuhan harian; perlu mempertimbangkan variasi produksi dan sumber cadangan atau penyimpanan",
+      "Sekolah harus memilih sumber dengan hasil tertinggi pada kondisi terbaik saja"
+    ],
+    "c": 2,
+    "d": "LEVEL 2 • ANALISIS DATA",
+    "e": "Keduanya dapat menghasilkan energi di atas atau di bawah kebutuhan, bergantung pada cuaca. Variasi produksi perlu dipertimbangkan bersama penyimpanan atau sumber pendukung."
+  },
+  {
+    "q": "Desa A memiliki sinar matahari kuat sepanjang tahun, tetapi tidak memiliki jaringan listrik yang stabil. Desa B berada dekat sungai dengan debit relatif stabil, namun aliran sungai dipakai untuk irigasi. Kedua desa ingin membangun pembangkit. Prinsip keputusan yang paling tepat adalah …",
+    "img": "🗺️|🌞|🌊|",
+    "a": [
+      "Memilih tenaga surya untuk Desa A dan tenaga air untuk Desa B tanpa kajian lanjutan",
+      "Mengkaji potensi teknis, kebutuhan warga, biaya, dampak lingkungan, dan penggunaan air sebelum menentukan pilihan",
+      "Memilih sumber yang menghasilkan listrik paling banyak tanpa memperhatikan lokasi",
+      "Membangun pembangkit yang sama di kedua desa agar perawatannya mudah"
+    ],
+    "c": 1,
+    "d": "LEVEL 2 • EVALUASI",
+    "e": "Potensi alam hanya satu pertimbangan. Kebutuhan masyarakat, biaya, kelayakan teknis, dan dampak lingkungan juga memengaruhi keputusan."
+  },
+  {
+    "q": "Data penggunaan energi sebuah rumah selama satu minggu menunjukkan: lampu 14 kWh, pendingin ruangan 35 kWh, kulkas 21 kWh, dan alat lain 20 kWh. Keluarga ingin mengurangi pemakaian tanpa mematikan kulkas. Tindakan awal yang paling beralasan adalah …",
+    "img": "🏠|📋|💡|",
+    "a": [
+      "Memusatkan evaluasi pada pendingin ruangan karena tercatat menggunakan energi paling besar, lalu mengatur pemakaian secara bijak",
+      "Mengganti semua lampu meskipun belum diketahui jenis lampunya",
+      "Mematikan kulkas sepanjang malam agar penghematan langsung maksimal",
+      "Mengurangi penggunaan alat lain karena jumlahnya lebih banyak daripada pendingin ruangan"
+    ],
+    "c": 0,
+    "d": "LEVEL 2 • INTERPRETASI DATA",
+    "e": "Pendingin ruangan memiliki pemakaian terbesar pada data. Mengatur suhu, durasi, dan penggunaan secara bijak layak dievaluasi lebih dahulu, tanpa mengabaikan kebutuhan kenyamanan."
+  },
+  {
+    "q": "Siswa menguji dua lampu selama 5 jam. Lampu P menggunakan energi 0,25 kWh dan lampu Q menggunakan 0,50 kWh. Keduanya memberi penerangan yang dianggap cukup untuk ruangan yang sama. Jika digunakan selama 20 hari dengan durasi yang sama setiap hari, berapa energi yang dapat dihemat dengan memilih lampu P?",
+    "img": "💡|🧮|📏|",
+    "a": [
+      "1 kWh",
+      "2,5 kWh",
+      "5 kWh",
+      "10 kWh"
+    ],
+    "c": 2,
+    "d": "LEVEL 2 • PERHITUNGAN",
+    "e": "Selisih energi per 5 jam = 0,50 − 0,25 = 0,25 kWh. Selama 20 hari: 0,25 × 20 = 5 kWh."
+  },
+  {
+    "q": "Sebuah daerah menggunakan diesel untuk listrik malam hari dan panel surya pada siang hari. Warga mengusulkan menghentikan diesel segera setelah panel dipasang. Data menunjukkan kebutuhan malam tetap tinggi dan baterai belum tersedia. Tanggapan terbaik adalah …",
+    "img": "🌞|🌙|🔋|",
+    "a": [
+      "Setuju, karena panel surya yang dipasang pada siang hari akan menghasilkan listrik yang sama pada malam hari",
+      "Menolak semua penggunaan panel surya karena tidak menghasilkan listrik pada malam hari",
+      "Menggunakan panel surya untuk membantu kebutuhan siang hari sambil merencanakan penyimpanan atau pasokan lain untuk kebutuhan malam",
+      "Menambah panel surya tanpa memperhitungkan kapan listrik dibutuhkan"
+    ],
+    "c": 2,
+    "d": "LEVEL 2 • PEMECAHAN MASALAH",
+    "e": "Waktu produksi dan waktu kebutuhan tidak selalu sama. Sistem perlu dirancang agar pasokan malam tetap tersedia."
+  },
+  {
+    "q": "Dua sumber energi dibandingkan. Sumber X dapat pulih secara alami, tetapi produksinya bergantung pada cuaca. Sumber Y dapat diandalkan saat diperlukan, tetapi bahan bakarnya terbatas dan menghasilkan polusi ketika dibakar. Pernyataan yang paling tepat adalah …",
+    "img": "⚖️|🔋|🌍|",
+    "a": [
+      "Sumber X selalu lebih baik dalam semua keadaan",
+      "Sumber Y harus digunakan terus karena produksinya dapat dikendalikan",
+      "Keputusan energi perlu menimbang keandalan, ketersediaan jangka panjang, polusi, dan kebutuhan pengguna",
+      "Keduanya tidak dapat digunakan bersama dalam satu sistem"
+    ],
+    "c": 2,
+    "d": "LEVEL 2 • PERBANDINGAN",
+    "e": "Setiap sumber memiliki kelebihan dan keterbatasan. Sistem gabungan dapat dipertimbangkan sesuai kebutuhan, biaya, dan kondisi setempat."
+  },
+  {
+    "q": "Sebuah kelompok menyimpulkan bahwa daerah dengan banyak hari cerah pasti cocok membangun pembangkit surya berkapasitas besar. Data tambahan apa yang paling diperlukan untuk menguji kesimpulan itu?",
+    "img": "📈|🔎|🏘️|",
+    "a": [
+      "Warna atap rumah yang paling disukai warga",
+      "Kebutuhan listrik, luas lahan atau atap, bayangan, biaya, serta kemungkinan penyimpanan dan penyaluran listrik",
+      "Jumlah nama jalan di daerah tersebut",
+      "Jenis awan yang terlihat pada satu pagi saja"
+    ],
+    "c": 1,
+    "d": "LEVEL 2 • MENILAI BUKTI",
+    "e": "Hari cerah membantu, tetapi kelayakan proyek juga bergantung pada kebutuhan, ruang, bayangan, biaya, penyimpanan, dan jaringan."
+  },
+  {
+    "q": "Sebuah pabrik menyatakan telah mengurangi pemakaian batu bara sebesar 20% setelah memasang peralatan baru. Namun, jumlah produk yang dibuat juga turun 25%. Mengapa data ini belum cukup untuk menyimpulkan bahwa proses produksi menjadi lebih efisien?",
+    "img": "🏭|📉|📊|",
+    "a": [
+      "Karena batu bara tidak termasuk sumber energi",
+      "Karena efisiensi perlu dibandingkan dengan jumlah produk atau hasil yang dihasilkan, bukan hanya total pemakaian",
+      "Karena penurunan pemakaian selalu menunjukkan peningkatan polusi",
+      "Karena jumlah produk tidak berkaitan dengan penggunaan energi"
+    ],
+    "c": 1,
+    "d": "LEVEL 2 • PENALARAN DATA",
+    "e": "Total energi dapat turun karena produksi ikut turun. Untuk menilai efisiensi, bandingkan energi per unit produk atau ukuran hasil yang setara."
+  },
+  {
+    "q": "Warga ingin memanfaatkan sampah organik menjadi biogas. Sebagian warga mengira semua sampah, termasuk plastik dan logam, dapat dimasukkan ke dalam alat yang sama. Saran terbaik adalah …",
+    "img": "♻️|🍂|🧪|",
+    "a": [
+      "Memasukkan semua jenis sampah agar gas yang dihasilkan semakin banyak",
+      "Memilah bahan organik yang sesuai dan mengelola bahan lain melalui cara yang tepat",
+      "Mengganti seluruh bahan organik dengan plastik karena lebih tahan lama",
+      "Menghentikan pemilahan karena semua sampah akan terurai dengan cara yang sama"
+    ],
+    "c": 1,
+    "d": "LEVEL 2 • PENERAPAN KONSEP",
+    "e": "Biogas dihasilkan dari penguraian bahan organik dalam kondisi tertentu. Plastik dan logam tidak diperlakukan sebagai bahan baku biogas."
+  },
+  {
+    "q": "Sebuah sekolah memiliki anggaran terbatas untuk menghemat energi. Hasil pemeriksaan menunjukkan banyak lampu menyala saat ruangan kosong, beberapa jendela tertutup tirai tebal pada siang hari, dan kipas menyala di ruang yang tidak digunakan. Langkah paling masuk akal sebagai tahap pertama adalah …",
+    "img": "🏫|🔍|💡|",
+    "a": [
+      "Membeli pembangkit baru sebelum memperbaiki kebiasaan penggunaan energi",
+      "Menerapkan kebiasaan mematikan peralatan yang tidak diperlukan dan memanfaatkan cahaya alami, lalu mengevaluasi hasilnya",
+      "Menutup seluruh jendela agar ruangan selalu gelap",
+      "Mengganti semua peralatan sekaligus tanpa memeriksa dampak atau biaya"
+    ],
+    "c": 1,
+    "d": "LEVEL 2 • PRIORITAS TINDAKAN",
+    "e": "Tindakan perilaku yang murah dan langsung terkait temuan pemeriksaan layak dilakukan lebih dahulu, kemudian hasil penghematan dapat diukur."
+  }
+];
+const level3Bank = [
+  {
+    "q": "Sebuah pulau kecil membutuhkan 120 kWh listrik setiap malam. Panel surya menghasilkan rata-rata 300 kWh pada siang hari, tetapi kebutuhan siang hari adalah 180 kWh. Baterai hanya dapat menyimpan 70% dari kelebihan listrik siang hari. Dengan mengabaikan kehilangan lain, apakah sisa energi surya cukup untuk kebutuhan malam?",
+    "img": "🏝️|🔋|🧮|",
+    "a": [
+      "Cukup, karena kelebihan 120 kWh lebih besar daripada kebutuhan malam",
+      "Tidak cukup, karena 70% dari 120 kWh adalah 84 kWh, lebih kecil daripada 120 kWh",
+      "Cukup, karena baterai menyimpan seluruh 300 kWh",
+      "Tidak dapat dihitung karena kebutuhan siang hari tidak diketahui"
+    ],
+    "c": 1,
+    "d": "LEVEL 3 • ANALISIS BERTAHAP",
+    "e": "Kelebihan siang hari = 300 − 180 = 120 kWh. Energi yang tersimpan = 70% × 120 = 84 kWh. Jumlah itu belum memenuhi kebutuhan malam 120 kWh."
+  },
+  {
+    "q": "Sebuah kabupaten membandingkan dua rancangan. Rancangan A: biaya awal lebih tinggi, emisi operasional rendah, produksi berubah sesuai cuaca. Rancangan B: biaya awal lebih rendah, pasokan dapat dikendalikan, tetapi bahan bakar harus dibeli terus dan menghasilkan emisi. Kabupaten ingin menekan biaya jangka panjang dan menjaga pasokan. Data tambahan mana yang paling menentukan untuk membandingkan kedua rancangan secara adil?",
+    "img": "📑|⚖️|🏙️|",
+    "a": [
+      "Pendapat satu warga tentang bentuk pembangkit yang disukai",
+      "Biaya awal saja karena biaya setelah pembangunan tidak relevan",
+      "Perkiraan biaya operasi dan perawatan, harga bahan bakar, pola kebutuhan, keandalan, umur alat, serta dampak emisi",
+      "Warna bangunan dan jumlah pekerja saat peresmian"
+    ],
+    "c": 2,
+    "d": "LEVEL 3 • EVALUASI MULTIKRITERIA",
+    "e": "Keputusan jangka panjang memerlukan perbandingan menyeluruh, termasuk biaya sepanjang umur sistem, kebutuhan energi, keandalan, dan dampak."
+  },
+  {
+    "q": "Siswa mengukur energi yang digunakan tiga alat selama waktu berbeda: alat P memakai 0,6 kWh selama 2 jam; alat Q memakai 0,9 kWh selama 3 jam; alat R memakai 0,8 kWh selama 4 jam. Jika tujuan penelitian adalah membandingkan laju penggunaan energi per jam, kesimpulan yang benar adalah …",
+    "img": "📊|⏱️|🧠|",
+    "a": [
+      "P paling tinggi, yaitu 0,3 kWh per jam",
+      "Q paling tinggi, yaitu 0,3 kWh per jam",
+      "R paling tinggi, yaitu 0,2 kWh per jam",
+      "Ketiganya sama karena total energinya hampir sama"
+    ],
+    "c": 0,
+    "d": "LEVEL 3 • ANALISIS KUANTITATIF",
+    "e": "P: 0,6 ÷ 2 = 0,3 kWh/jam. Q: 0,9 ÷ 3 = 0,3 kWh/jam. R: 0,8 ÷ 4 = 0,2 kWh/jam. P dan Q sama-sama tertinggi."
+  },
+  {
+    "q": "Sebuah desa ingin membangun pembangkit air. Pengukuran selama satu bulan menunjukkan debit sungai besar, tetapi data musim kemarau belum tersedia. Sebagian warga mendukung pembangunan karena hasil pengukuran bulan itu tinggi. Kesimpulan ilmiah paling tepat adalah …",
+    "img": "🌊|📆|🔬|",
+    "a": [
+      "Data satu bulan cukup untuk memastikan pembangkit akan menghasilkan listrik sepanjang tahun",
+      "Pembangunan harus ditolak karena sungai pasti kering saat kemarau",
+      "Perlu data debit pada musim berbeda dan kajian dampak serta kebutuhan air sebelum memperkirakan produksi tahunan",
+      "Debit sungai tidak berhubungan dengan produksi listrik"
+    ],
+    "c": 2,
+    "d": "LEVEL 3 • EVALUASI KEKUATAN BUKTI",
+    "e": "Data satu bulan mungkin tidak mewakili variasi musiman. Pengukuran lebih panjang dibutuhkan untuk menilai keandalan produksi dan dampak pada pengguna air."
+  },
+  {
+    "q": "Sebuah rumah menggunakan 400 kWh listrik per bulan. Setelah kebiasaan hemat diterapkan, penggunaan turun menjadi 340 kWh. Keluarga kemudian memasang panel surya yang memasok 100 kWh per bulan untuk kebutuhan rumah. Jika angka tersebut menunjukkan energi yang benar-benar digunakan untuk menggantikan listrik dari jaringan, berapa energi bulanan yang masih diambil dari jaringan?",
+    "img": "🏠|📉|☀️|",
+    "a": [
+      "240 kWh",
+      "300 kWh",
+      "340 kWh",
+      "440 kWh"
+    ],
+    "c": 0,
+    "d": "LEVEL 3 • MODEL PERHITUNGAN",
+    "e": "Setelah penghematan, kebutuhan menjadi 340 kWh. Panel surya menggantikan 100 kWh, sehingga energi dari jaringan = 340 − 100 = 240 kWh."
+  },
+  {
+    "q": "Seorang siswa mengklaim bahwa daerah dengan jumlah turbin angin lebih banyak pasti menghasilkan listrik lebih besar. Namun, turbin di daerah pertama kecil dan anginnya lemah, sedangkan daerah kedua memiliki turbin lebih sedikit tetapi anginnya lebih kuat dan stabil. Cara terbaik menilai klaim tersebut adalah …",
+    "img": "🌬️|📐|📊|",
+    "a": [
+      "Menghitung jumlah turbin saja karena itu satu-satunya faktor",
+      "Membandingkan listrik yang benar-benar dihasilkan selama periode sebanding serta mempertimbangkan kapasitas dan kondisi angin",
+      "Memilih daerah yang memiliki turbin dengan warna paling terang",
+      "Menganggap klaim benar karena jumlah alat selalu menentukan hasil"
+    ],
+    "c": 1,
+    "d": "LEVEL 3 • UJI KLAIM",
+    "e": "Jumlah turbin saja tidak cukup. Kapasitas, kecepatan dan kestabilan angin, serta produksi terukur harus dibandingkan dalam periode yang sama."
+  },
+  {
+    "q": "Sebuah sekolah mempertimbangkan dua langkah: mengganti lampu lama dengan LED atau memasang panel surya. Dana hanya cukup untuk satu langkah tahun ini. Pemeriksaan awal menunjukkan lampu lama menyala lama setiap hari, sementara atap sekolah sering tertutup bayangan pohon. Keputusan awal paling masuk akal adalah …",
+    "img": "🏫|💡|🌳|",
+    "a": [
+      "Memasang panel surya tanpa kajian karena energi matahari selalu tersedia",
+      "Mengganti lampu dengan LED terlebih dahulu sambil mengukur penghematan, serta mengkaji kondisi atap sebelum memasang panel",
+      "Tidak melakukan apa pun karena kedua pilihan tidak sempurna",
+      "Menebang semua pohon tanpa menilai manfaat dan alternatif lain"
+    ],
+    "c": 1,
+    "d": "LEVEL 3 • KEPUTUSAN BERDASARKAN BUKTI",
+    "e": "Penggantian lampu langsung menargetkan penggunaan yang sering terjadi, sedangkan bayangan perlu dikaji sebelum investasi panel surya. Keputusan dapat dievaluasi berdasarkan hasil penghematan."
+  },
+  {
+    "q": "Data dua sistem pembangkit selama satu minggu: Sistem A menghasilkan 700 kWh tetapi membutuhkan bahan bakar fosil; Sistem B menghasilkan 500 kWh dari sumber terbarukan. Kebutuhan wilayah 550 kWh per minggu. Sistem B memiliki potensi tambahan penyimpanan, tetapi biayanya belum dihitung. Kesimpulan paling kuat adalah …",
+    "img": "⚡|📈|🧩|",
+    "a": [
+      "Sistem A pasti terbaik karena produksinya paling tinggi",
+      "Sistem B sudah pasti cukup karena sumbernya terbarukan",
+      "Sistem B belum memenuhi kebutuhan berdasarkan produksi saat ini; perlu dikaji tambahan kapasitas/penyimpanan dan dibandingkan biaya serta dampaknya dengan Sistem A",
+      "Sistem A dan B tidak dapat dibandingkan karena sumber energinya berbeda"
+    ],
+    "c": 2,
+    "d": "LEVEL 3 • SINTESIS DATA",
+    "e": "Produksi Sistem B masih 50 kWh di bawah kebutuhan. Potensi penyimpanan tidak otomatis menambah energi yang dihasilkan; kapasitas, biaya, dan keandalan perlu dianalisis."
+  },
+  {
+    "q": "Sebuah pabrik mengurangi pemakaian energi dari 1.000 kWh menjadi 900 kWh, sementara produksinya turun dari 500 barang menjadi 400 barang. Pernyataan yang tepat tentang energi per barang adalah …",
+    "img": "🏭|🔢|📉|",
+    "a": [
+      "Efisiensi pasti meningkat karena total energi turun 10%",
+      "Energi per barang turun dari 2 kWh menjadi 1,8 kWh",
+      "Energi per barang naik dari 2 kWh menjadi 2,25 kWh, sehingga data ini tidak menunjukkan efisiensi membaik",
+      "Efisiensi tidak dapat dianalisis tanpa mengetahui warna produk"
+    ],
+    "c": 2,
+    "d": "LEVEL 3 • ANALISIS RASIO",
+    "e": "Sebelum: 1.000 ÷ 500 = 2 kWh/barang. Sesudah: 900 ÷ 400 = 2,25 kWh/barang. Energi per barang meningkat."
+  },
+  {
+    "q": "Warga mengusulkan mengolah sampah menjadi energi untuk mengurangi sampah yang dibuang ke tempat pembuangan akhir. Agar usulan itu tidak sekadar memindahkan masalah, kajian paling lengkap perlu mencakup …",
+    "img": "♻️|🏘️|🔎|",
+    "a": [
+      "Jumlah sampah saja, tanpa melihat jenis dan proses pengolahan",
+      "Potensi energi, pemilahan bahan, emisi, residu, biaya, keselamatan, dan pilihan pengurangan serta daur ulang sampah",
+      "Jumlah kendaraan yang lewat di dekat lokasi",
+      "Kecepatan pembangunan fasilitas saja"
+    ],
+    "c": 1,
+    "d": "LEVEL 3 • EVALUASI SISTEM",
+    "e": "Pengolahan sampah menjadi energi perlu dibandingkan dengan pilihan pengurangan dan daur ulang serta mempertimbangkan emisi, residu, keselamatan, dan biaya."
+  }
+];
+let selectedLevel = 1;
+const $=id=>document.getElementById(id); const clone=x=>JSON.parse(JSON.stringify(x));
+let bank=loadBank(), questions=[], scores=[0,0,0], names=[], idx=0, turn=0, mode="turn", timeLeft=20, timerId=null, answered=false, currentChoice=null;
+function loadBank(){try{const saved=localStorage.getItem("ipasBattleBank");if(saved){const parsed=JSON.parse(saved);if(validBank(parsed))return parsed;}}catch(e){}return clone(defaultBank)}
+function validBank(x){return Array.isArray(x)&&x.length>0&&x.every(q=>q&&typeof q.q==="string"&&Array.isArray(q.a)&&q.a.length===4&&q.a.every(v=>typeof v==="string")&&Number.isInteger(q.c)&&q.c>=0&&q.c<4&&typeof q.e==="string")}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function show(id){$(id).classList.remove("hidden")}function hide(id){$(id).classList.add("hidden")}
+function shuffle(a){const x=clone(a);for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]]}return x}
+function renderScores(){$("scores").innerHTML=names.map((n,i)=>`<div class="score-card"><div class="score-name">${["🔵","💗","🟢"][i]} ${esc(n)}</div><div class="score-num">${scores[i]}</div><div class="score-unit">POIN</div></div>`).join("")}
+function start(){bank=clone(selectedLevel===2?level2Bank:selectedLevel===3?level3Bank:defaultBank);names=[1,2,3].map(i=>$("team"+i).value.trim()||`Tim ${i}`);scores=[0,0,0];idx=0;turn=0;mode=$("roundMode").value;questions=shuffle(bank);hide("setup");hide("results");hide("teacherPanel");show("game");renderScores();renderQuestion()}
+function stopTimer(){if(timerId){clearInterval(timerId);timerId=null}}
+function renderQuestion(){stopTimer();answered=false;currentChoice=null;timeLeft=Number($("seconds").value);const q=questions[idx];$("qNumber").textContent=`SOAL ${idx+1}/${questions.length}`;$("level").textContent=q.d||"TANTANGAN";$("turnLabel").textContent=mode==="turn"?`Giliran: ${names[turn]}`:"Guru memilih tim";$("timer").textContent=`⏱ ${timeLeft} dtk`;$("bar").style.width=`${idx/questions.length*100}%`;$("question").textContent=q.q;const vis=(q.img||"🔎|🌱|⚡|OBSERVA Y PIENSA").split("|");["ill1","ill2","ill3"].forEach((id,i)=>$(id).textContent=vis[i]||"✨");$("illCaption").textContent="";$("illustration").setAttribute("aria-label","Ilustrasi pendukung untuk soal analisis");$("answers").innerHTML=q.a.map((a,i)=>`<button class="answer" data-answer="${i}"><span class="letter">${"ABCD"[i]}</span><span>${esc(a)}</span></button>`).join("");$("answers").querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>choose(Number(b.dataset.answer))));hide("feedback");hide("nextBtn");$("status").textContent=mode==="turn"?`${names[turn]}, sentuh jawabanmu!`:"Sentuh jawaban, lalu pilih tim yang mendapat poin.";timerId=setInterval(()=>{timeLeft--;$("timer").textContent=`⏱ ${timeLeft} dtk`;if(timeLeft<=0){stopTimer();if(!answered){answered=true;disableAnswers();revealTimeout()}}},1000)}
+function disableAnswers(){$("answers").querySelectorAll("button").forEach(b=>b.disabled=true)}
+function choose(n){if(answered)return;answered=true;stopTimer();currentChoice=n;const q=questions[idx],correct=n===q.c;disableAnswers();$("answers").querySelectorAll("button").forEach((b,i)=>{if(i===q.c)b.classList.add("correct");else if(i===n)b.classList.add("wrong")});if(correct){sound(true);confetti();if(mode==="turn"){scores[turn]+=10;renderScores();feedback(true,`🎉 Benar! +10 poin untuk ${names[turn]}.`,q);show("nextBtn")}else{$("feedback").className="feedback good";$("feedback").innerHTML=`🎉 Jawaban benar! Sentuh tim yang mendapat 10 poin.<br><br>${esc(q.e)}<div class="row" style="margin-top:12px">${names.map((name,i)=>`<button class="btn ${["btn-cyan","btn-pink","btn-green"][i]} small" onclick="award(${i})">${esc(name)} +10</button>`).join("")}</div>`;show("feedback")}}else{sound(false);feedback(false,"Belum tepat. Periksa kembali alasan dan data yang digunakan.",q);show("nextBtn")} }
+function feedback(good,msg,q){$("feedback").className="feedback "+(good?"good":"bad");$("feedback").innerHTML=`${esc(msg)}<br><b>Jawaban benar: ${"ABCD"[q.c]}. ${esc(q.a[q.c])}</b><br>${esc(q.e)}`;show("feedback");$("status").textContent=good?"Poin bertambah!":"Tidak apa-apa, kita belajar bersama."}
+function award(i){if($("nextBtn").classList.contains("hidden")){scores[i]+=10;renderScores();feedback(true,`+10 poin untuk ${names[i]}!`,questions[idx]);show("nextBtn")}}
+function revealTimeout(){const q=questions[idx];$("feedback").className="feedback bad";$("feedback").innerHTML=`⏰ Waktu habis!<br><b>Jawaban: ${"ABCD"[q.c]}. ${esc(q.a[q.c])}</b><br>${esc(q.e)}`;show("feedback");show("nextBtn");$("status").textContent="Tarik napas, lanjut ke soal berikutnya."}
+function next(){if(idx<questions.length-1){idx++;if(mode==="turn")turn=(turn+1)%3;renderQuestion()}else finish()}
+function finish(){stopTimer();hide("game");show("results");const sorted=names.map((n,i)=>({n,s:scores[i]})).sort((a,b)=>b.s-a.s),w=sorted.filter(x=>x.s===sorted[0].s);$("winnerText").textContent=w.length===3?"Semua tim seri! Kalian semua juara karena sudah berusaha!":w.length>1?`Pertandingan seri antara ${w.map(x=>x.n).join(" dan ")}. Hebat!`:`Selamat ${w[0].n}! Kalian menjadi Juara Energi!`; $("finalScores").innerHTML=sorted.map((x,i)=>`<div class="row spread" style="padding:14px;margin:9px 0;border-radius:15px;background:${i===0?"#fff1b8":"#f4f0ff"};font-weight:900"><span>${["🥇","🥈","🥉"][i]} ${esc(x.n)}</span><span>${x.s} poin</span></div>`).join("");confetti()}
+function sound(ok){try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return;const c=new C(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=ok?660:220;g.gain.value=.08;o.start();o.stop(c.currentTime+.13);setTimeout(()=>c.close(),250)}catch(e){}}
+function confetti(){const icons=["⭐","✨","🌈","🎉","⚡","💫"];for(let i=0;i<18;i++){const s=document.createElement("span");s.className="sparkle";s.textContent=icons[Math.floor(Math.random()*icons.length)];s.style.left=Math.random()*100+"vw";s.style.animationDelay=Math.random()*.5+"s";document.body.appendChild(s);setTimeout(()=>s.remove(),2200)}}
+function openTeacher(){ $("passwordInput").value="";hide("loginError");show("loginModal");setTimeout(()=>$("passwordInput").focus(),80)}
+function login(){if($("passwordInput").value===DEFAULT_PASSWORD){hide("loginModal");hide("setup");hide("results");hide("game");show("teacherPanel");$("editor").value=JSON.stringify(bank,null,2);hide("teacherMsg")}else show("loginError")}
+$("startBtn").addEventListener("click",start);$("nextBtn").addEventListener("click",next);$("againBtn").addEventListener("click",()=>{stopTimer();hide("results");show("setup")});$("exitBtn").addEventListener("click",()=>{stopTimer();hide("game");show("setup")});$("rulesBtn").addEventListener("click",()=>$("rules").classList.toggle("hidden"));$("fullBtn").addEventListener("click",async()=>{try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();else await document.exitFullscreen()}catch(e){alert("Mode layar penuh tidak tersedia di browser ini.")}});$("teacherBtn").addEventListener("click",openTeacher);$("resultTeacher").addEventListener("click",openTeacher);$("cancelLogin").addEventListener("click",()=>hide("loginModal"));$("loginBtn").addEventListener("click",login);$("passwordInput").addEventListener("keydown",e=>{if(e.key==="Enter")login();if(e.key==="Escape")hide("loginModal")});$("closeTeacher").addEventListener("click",()=>{hide("teacherPanel");show("setup")});
+$("saveQuestions").addEventListener("click",()=>{try{const parsed=JSON.parse($("editor").value);if(!validBank(parsed))throw new Error("Format belum sesuai. Setiap soal harus punya q, 4 pilihan a, c (0–3), dan e.");bank=parsed;localStorage.setItem("ipasBattleBank",JSON.stringify(bank));$("teacherMsg").className="feedback good";$("teacherMsg").textContent=`Berhasil! ${bank.length} soal tersimpan di perangkat ini.`;show("teacherMsg")}catch(e){$("teacherMsg").className="feedback bad";$("teacherMsg").textContent="Belum tersimpan: "+e.message;show("teacherMsg")}});
+$("resetQuestions").addEventListener("click",()=>{if(confirm("Pulihkan 15 soal analisis bawaan? Perubahan bank soal akan diganti.")){bank=clone(defaultBank);localStorage.removeItem("ipasBattleBank");$("editor").value=JSON.stringify(bank,null,2);$("teacherMsg").className="feedback good";$("teacherMsg").textContent="Soal bawaan dipulihkan.";show("teacherMsg")}});
+$("exportQuestions").addEventListener("click",()=>{const blob=new Blob([JSON.stringify(bank,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="Bank_Soal_IPAS_Battle.json";a.click();URL.revokeObjectURL(url)});
+
+document.querySelectorAll('.level-btn').forEach(btn=>btn.addEventListener('click',()=>{
+  selectedLevel=Number(btn.dataset.level);
+  document.querySelectorAll('.level-btn').forEach(b=>b.classList.toggle('active',b===btn));
+}));
+
+</script>
+</body></html>
